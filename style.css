@@ -1,0 +1,224 @@
+/* general styling */
+:root {
+    --smaller: .75;
+  }
+  
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+
+}
+
+body {
+    align-items: center;
+    background-color: #CCDBDC;
+    display: flex;
+    font-family: -apple-system, 
+        BlinkMacSystemFont, 
+        "Segoe UI", 
+        Roboto, 
+        Oxygen-Sans, 
+        Ubuntu, 
+        Cantarell, 
+        "Helvetica Neue", 
+        sans-serif;
+}
+
+
+.container {
+    color: #333;
+    text-align: center;
+    width: 100%;
+    transform: scale(1.1);
+    overflow: hidden;
+}
+
+.options-container {
+    display: flex;
+    align-items: center;
+    /* make sure everything is responsive */
+    flex-wrap: wrap;
+    justify-content: center;
+    
+}
+
+.functionality-container{
+    margin-top: 1.5em;
+}
+
+.test-audio-button-container{
+        align-items: center;
+        min-width: 15em;
+        position: relative;
+        margin: 2em;
+        margin-top: -1em;
+        margin-bottom: 1em;
+        padding-bottom: 1em;
+}
+
+#test-audio-button{
+    background: #2a2f3b;
+    color: white;
+    align-items: center;
+    min-width: 15em;
+    position: relative;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    font-size: 16px;
+    border: 2px #2a2f3b solid;
+    border-radius: 0.5em;
+    justify-content: space-between;
+    padding: 1em;
+}
+
+#test-audio-button:hover{
+    background: #323741;
+}
+
+#test-audio-button:active{
+    border: 2px #26489a solid;
+    box-shadow: 0 0 0.8em #26489a;
+}
+
+  
+#title-container {
+    /* position: absolute; */
+    top: 9em;
+    left: 50%; /* Position it at the center horizontally */
+    padding-bottom: 1em;
+    margin-top: .8em;
+    font-size: 4em;
+    font-weight: bold;
+    white-space: nowrap;
+  }
+
+
+#time-until-next-bell {
+    display: inline-block;
+    font-size: 4.5em;
+    list-style-type: none;
+    text-transform: uppercase;
+}
+
+#countdown-container{
+    padding-top: 0em;
+    padding-bottom: 2.5em;
+}
+
+#countdown-description{
+    font-size: 1.5em;
+}
+
+#next-bell-container {
+    font-weight: normal;
+    /* letter-spacing: .125rem; */
+    font-size: 2.3em;
+    text-transform: uppercase;
+    margin-bottom: 1em;
+}
+
+.dropdown {
+    min-width: 15em;
+    position: relative;
+    margin: 2em;
+    margin-top: -1em;
+    margin-bottom: 1em;
+    padding-bottom: 1em;
+}
+
+.dropdown * {
+    box-sizing: border-box;
+}
+
+.select {
+    background: #2a2f3b;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 2px #2a2f3b solid;
+    border-radius: 0.5em;
+    padding: 1em;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+/* Clicked styles (add JS later) */
+
+.select-clicked {
+    border: 2px #26489a solid;
+    box-shadow: 0 0 0.8em #26489a;
+}
+
+.select:hover {
+    background: #323741;
+}
+
+.caret {
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 6px solid #fff;
+    transition: 0.3s;
+}
+
+.caret-rotate {
+    transform: rotate(180deg);
+}
+
+.menu {
+    list-style: none;
+    padding: 0.2em 0.5em;
+    background: #323741;
+    border: 1px #363a43 solid;
+    box-shadow: 0 0.5em 1em rgba(0, 0, 0, 0.2);
+    border-radius: 0.5em;
+    color: #9fa5b5;
+    position: absolute;
+    top: 3em;
+    left: 50%;
+    width: 100%;
+    transform: translateX(-50%);
+    opacity: 0;
+    display: none;
+    transition: 0.2s;
+    z-index: 1;
+}
+
+.menu li {
+    padding: 0.7em 0.5em;
+    margin: 0.3em 0;
+    border-radius: 0.5em;
+    cursor: pointer;
+}
+
+.menu li:hover{
+    background: #2a2d35;
+}
+
+.active{
+    background: #23242a;
+}
+
+.menu-open{
+    display: block;
+    opacity: 1;
+}
+
+.footer{
+    font-size: .9em;
+    padding-top: 9em;   
+}
+
+a{
+    color: #2359d4;
+    /* text-decoration: none; */
+}

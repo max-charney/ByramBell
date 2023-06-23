@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Byram Bell</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="apple-touch-icon" sizes="57x57" href="Favicon/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="Favicon/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="Favicon/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="Favicon/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="Favicon/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="Favicon/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="Favicon/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="Favicon/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="Favicon/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="Favicon/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="Favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="Favicon/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="Favicon/favicon-16x16.png">
+    <link rel="manifest" href="Favicon/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="Favicon/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+</head>
+    
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-VNN4JQMENJ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-VNN4JQMENJ');
+</script>
+    
+<body>
+
+
+    <div class="container">
+
+        <div id="title-container">
+            <h1` id="title">Byram Bell</h1>
+        </div>
+
+
+        <div class="options-container">
+            <div class="dropdown">
+                <div class="select">
+                    <span class="selected">No Delay</span>
+                    <div class="caret"></div>
+                </div>
+                <ul class="menu">
+                    <li class="active">No Delay</li>
+                    <li>1 Hour Delay</li>
+                    <li>2 Hour Delay</li>
+                    <li>3 Hour Delay</li>
+                </ul>
+            </div>
+
+            <div class="test-audio-button-container">
+                <button id="test-audio-button">Test Audio</button>
+            </div>
+        </div>
+
+        <div class="functionality-container">
+            <div id="countdown-container">
+                <div id="countdown-description">
+                    <p>Time until next bell:</p>
+                </div>
+                <div id="time-until-next-bell"></div>
+            </div>
+
+            <div id="next-bell-container"></div>
+        </div>
+
+        <div id="footer-container">
+            <p class="footer">Website created by Mr. Lewick and Max Charney. Click <a href="https://github.com/max-charney/ByramBell/tree/main" target="_blank">here</a> for more information.</p>
+        </div>
+
+    </div>
+    
+    <script>
+
+        
+
+        const button = document.getElementById('test-audio-button');
+        const audioSrc = 'schoolBell.mp3'; // Replace with the path to your audio file
+        
+        button.addEventListener('click', () => {
+        const audio = new Audio(audioSrc);
+        audio.play();
+        });
+
+        let original_alarm_times = ["07:45:00", "08:10:00", "09:14:00", "09:18:00", "10:22:00", "10:26:00", "11:30:00", "12:13:00", "13:17:00", "13:21:00", "14:25:00"];
+        let alarm_times = original_alarm_times.slice(); // Make a copy of the original alarm times
+
+        // Get all dropdowns from the document
+        const dropdowns = document.querySelectorAll('.dropdown');
+
+        // Loop through all dropdown elements
+        dropdowns.forEach(dropdown => {
+            // Get inner elements from each dropdown
+            const select = dropdown.querySelector('.select');
+            const caret = dropdown.querySelector('.caret');
+            const menu = dropdown.querySelector('.menu');
+            const options = dropdown.querySelectorAll('.menu li');
+            const selected = dropdown.querySelector('.selected');
+
+            select.addEventListener('click', () => {
+                // Add the clicked select styles to the select element
+                select.classList.toggle('select-clicked');
+                // Add the rotate styles to the caret element
+                caret.classList.toggle('caret-rotate');
+                // Add the open styles to the menu element
+                menu.classList.toggle('menu-open');
+            });
+
+            options.forEach(option => {
+                option.addEventListener('click', () => {
+                    selected.innerText = option.innerText;
+                    select.classList.remove('select-clicked');
+                    caret.classList.remove('caret-rotate');
+                    menu.classList.remove('menu-open');
+                    options.forEach(option => {
+                        option.classList.remove('active');
+                    });
+
+                    if (option.innerText === "1 Hour Delay") {
+                        alarm_times = ["20:00:00"];
+                    } 
+                    else if (option.innerText === "2 Hour Delay") {
+                        alarm_times = ["20:30:00"];
+                    }
+                    else if (option.innerText === "3 Hour Delay") {
+                        alarm_times = ["21:00:00"];
+                    } 
+                    else {
+                        alarm_times = original_alarm_times.slice(); // Restore the original alarm times
+                    }
+
+                    // Update the sorted alarm times based on the new alarm times
+                    updateSortedAlarmTimes();
+                    currentIndex = 0;
+                    displayNextAlarm();
+                });
+            });
+        });
+
+        let alarm_times_dt = [];
+        let sorted_alarm_times_dt = [];
+
+        function updateSortedAlarmTimes() {
+            alarm_times_dt = alarm_times.map(function(t) {
+                const timeParts = t.split(":");
+                const now = new Date();
+                return new Date(now.getFullYear(), now.getMonth(), now.getDate(), timeParts[0], timeParts[1], timeParts[2]);
+            });
+
+            const current_time = new Date(new Date().toLocaleString("en-US", { timeZone: "America/New_York" }));
+
+            sorted_alarm_times_dt = alarm_times_dt.sort(function(a, b) {
+                return timeDifference(a) - timeDifference(b);
+            });
+
+            function timeDifference(time) {
+                const time_dt = new Date(
+                    current_time.getFullYear(),
+                    current_time.getMonth(),
+                    current_time.getDate(),
+                    time.getHours(),
+                    time.getMinutes(),
+                    time.getSeconds()
+                );
+
+                if (time_dt >= current_time) {
+                    return time_dt - current_time; // time difference in milliseconds
+                } else {
+                    const nextDay = new Date(time_dt);
+                    nextDay.setDate(nextDay.getDate() + 1);
+                    return nextDay - current_time; // time difference in milliseconds
+                }
+            }
+        }
+
+        updateSortedAlarmTimes();
+
+        let currentIndex = 0;
+// Create the Audio object for the bell sound
+const audio = new Audio("schoolBell.mp3");
+
+function displayNextAlarm() {
+  const regular_time = sorted_alarm_times_dt[currentIndex].toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  document.getElementById("next-bell-container").textContent = "Next bell at: " + regular_time;
+
+  const timerId = setInterval(function() {
+    const current_time = new Date(new Date().toLocaleString("en-US", { timeZone: "America/New_York" }));
+
+    if (current_time.getHours() === sorted_alarm_times_dt[currentIndex].getHours() &&
+        current_time.getMinutes() === sorted_alarm_times_dt[currentIndex].getMinutes() &&
+        current_time.getSeconds() === sorted_alarm_times_dt[currentIndex].getSeconds()) {
+      clearInterval(timerId);
+      document.getElementById("time-until-next-bell").textContent = "0:00:00";
+
+      // Play the bell sound
+      audio.pause(); // Stop any previous playback
+      audio.currentTime = 0; // Reset the audio to the beginning
+      audio.play()
+        .then(function() {
+          // Delay the execution of the next alarm
+          setTimeout(function() {
+            currentIndex = (currentIndex + 1) % sorted_alarm_times_dt.length;
+            displayNextAlarm();
+          }, 5000);
+        })
+        .catch(error => {
+          console.error("Failed to play the bell sound:", error);
+          // Delay the execution of the next alarm
+          setTimeout(function() {
+            currentIndex = (currentIndex + 1) % sorted_alarm_times_dt.length;
+            displayNextAlarm();
+          }, 5000);
+        });
+    } else {
+      let time_difference = sorted_alarm_times_dt[currentIndex].getTime() - current_time.getTime();
+      if (!isNaN(time_difference) && time_difference > 0) {
+        document.getElementById("time-until-next-bell").textContent = formatTimeDifference(time_difference);
+      } else {
+        const nextAlarmIndex = currentIndex === alarm_times.length - 1 ? 0 : currentIndex + 1;
+        const nextAlarmTime = sorted_alarm_times_dt[nextAlarmIndex];
+        const nextDay = new Date();
+        nextDay.setDate(nextDay.getDate() + 1);
+        nextDay.setHours(nextAlarmTime.getHours(), nextAlarmTime.getMinutes(), nextAlarmTime.getSeconds(), 0);
+        const time_difference_tomorrow = nextDay.getTime() - current_time.getTime();
+        if (!isNaN(time_difference_tomorrow) && time_difference_tomorrow > 0) {
+          document.getElementById("time-until-next-bell").textContent = formatTimeDifference(time_difference_tomorrow);
+        } else {
+          document.getElementById("time-until-next-bell").textContent = "00:00:00";
+        }
+      }
+    }
+  }, 1000);
+}
+
+
+
+function formatTimeDifference(time_difference) {
+  if (isNaN(time_difference) || time_difference <= 0) {
+    return "00:00:00";
+  }
+
+  const hours = Math.floor(time_difference / 3600000);
+  const minutes = Math.floor((time_difference % 3600000) / 60000);
+  const seconds = Math.floor((time_difference % 60000) / 1000);
+
+  const formattedTime = ("0" + hours).slice(-2) + ":" + ("0" + minutes).slice(-2) + ":" + ("0" + seconds).slice(-2);
+  return formattedTime;
+}
+
+displayNextAlarm();
+
+    </script>
+</body>
+</html>
