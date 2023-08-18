@@ -13,8 +13,6 @@ html, body {
     height: 100%;
     margin: 0;
     padding: 0;
-    overflow: hidden;
-
 }
 
 body {
@@ -83,8 +81,8 @@ body {
 }
 
 #test-audio-button:active{
-    border: 2px #26489a solid;
-    box-shadow: 0 0 0.8em #26489a;
+    border: 2px #5f99b1 solid;
+    box-shadow: 0 0 0.8em #5f99b1;
 }
 
   
@@ -157,8 +155,8 @@ body {
 /* Clicked styles (add JS later) */
 
 .select-clicked {
-    border: 2px #26489a solid;
-    box-shadow: 0 0 0.8em #26489a;
+    border: 2px #5f99b1 solid;
+    box-shadow: 0 0 0.8em #5f99b1;
 }
 
 .select:hover {
@@ -287,4 +285,3 @@ a{
         font-size: 15px;
     } */
 }
-
