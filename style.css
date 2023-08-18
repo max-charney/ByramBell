@@ -124,6 +124,8 @@ body {
     margin-bottom: 1em;
 }
 
+
+
 .dropdown {
     min-width: 15em;
     position: relative;
@@ -191,6 +193,7 @@ body {
     display: none;
     transition: 0.2s;
     z-index: 1;
+    
 }
 
 .menu li {
@@ -221,4 +224,62 @@ body {
 a{
     color: #2359d4;
     /* text-decoration: none; */
+}
+
+/* media queries */
+@media only screen and (max-width: 600px) {
+    .footer{
+        padding-top: 2em;   
+    }
+
+    .container{
+        margin-top: -3em;
+    }
+}
+
+@media only screen and (max-width: 460px) {
+    /* #test-audio-button{
+         original: 16px 
+        font-size: 15px;
+
+    } */
+
+    .container{
+        margin-top: -2em;
+    }
+
+    #title-container {
+        /* original: 4em */
+        font-size: 3.1em;
+      }
+    
+    #time-until-next-bell {
+        /* original: 4.5em */
+        font-size: 4.5em;
+    }
+
+    #countdown-description{
+        /* original: 1.5em */
+        font-size: 1.5em;
+    }
+
+    #next-bell-container {
+        /* original: 2.3em */
+        font-size: 1.8em;
+
+    }
+
+
+
+    .footer{
+        font-size: .9em;
+        margin-top: 5em;
+    }
+
+    /* .menu li{
+        font-size: 15px;
+    }
+    .selected{
+        font-size: 15px;
+    } */
 }
