@@ -286,3 +286,9 @@ a{
         font-size: 15px;
     } */
 }
+
+@media only screen and (max-height: 820px) {
+    .footer{
+        margin-top: -12%;
+    }
+}
